@@ -17,22 +17,25 @@ soup = BeautifulSoup(results_page_html, "html.parser")
 
 recipes = soup.find_all('h3')
 
-my_recipe_data = {
-	"title" : None, 
-	# "url" : None,
-	# "text": None,
-	"ingredients" : None,
-	# "instructions" : None,
-}
+# my_recipe_data = {
+# 	"title" : None, 
+# 	"url" : None,
+# 	"ingredients" : None,
+# }
 
 for recipe in recipes:
 
-	print("----------------")
+	my_recipe_data = {
+	"title" : None, 
+	"url" : None,
+	"ingredients" : None,
+	}
+
+	# print("----------------")
 
 	title = recipe.find('a')
 	title_text = title.text
-	# my_recipe_data['title'] = title_text
-	# print(title_text)
+	my_recipe_data['title'] = title_text
 
 	url = title['href']
 	url = "https://www.saveur.com/" + url
@@ -50,8 +53,14 @@ for recipe in recipes:
 	ingredients = ingredients.replace(";; ", "")
 	my_recipe_data['ingredients'] = ingredients
 
-	all_my_recipes.append()
-
 	time.sleep(5)
+
+	# print(my_recipe_data)
+
+	all_my_recipes.append(my_recipe_data)
+
+with open('classic_NOLA_recipes_Saveur.json', 'w') as file_object:
+	json.dump(all_my_recipes, file_object, indent=2)
+	print("chef's kiss!")
 
 
